@@ -1,7 +1,9 @@
 import express from 'express';
-import ideasRouter from './routes';
+import { ideasRouter } from './routes/ideasRoute';
 
 const app = express();
+
+app.use(express.json())
 
 // Use the router
 app.use(ideasRouter);

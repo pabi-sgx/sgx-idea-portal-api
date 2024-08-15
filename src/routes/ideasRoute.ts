@@ -1,6 +1,5 @@
 import express from 'express';
-import { getIdeas, saveIdea, updateIdea, getIdea } from '../controllers/ideasController';
-import {}
+import {getIdeas, saveIdea, updateIdea, getIdea} from '../controllers/ideasController';
 
 // Create a router
 export const ideasRouter = express.Router();
