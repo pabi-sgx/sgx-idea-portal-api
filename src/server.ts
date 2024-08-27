@@ -1,5 +1,8 @@
 import express from 'express';
 import { ideasRouter } from './routes/ideasRoute';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 
