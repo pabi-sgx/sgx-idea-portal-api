@@ -4,17 +4,29 @@ import Idea from '../model/Idea';
 
 export const getIdeas = async (req: Request, res: Response) => {
     try {
-        const ideas = await Idea.find();
-        if (!ideas) {
-            return res.status(404).json({
-                success: false,
-                message: 'No ideas found'
-            });
-        }
-        res.status(200).json({
+        const { query } = req;
+        const options = {
+            page: parseInt(query.page as string, 10) || 1,
+            limit: parseInt(query.limit as string, 10) || 10
+        };
+        const total = await Idea.countDocuments();
+        const ideas = await Idea.find()
+            .skip((options.page - 1) * options.limit)
+            .limit(options.limit)
+            .sort({ updatedAt: -1 });
+        
+        const response = {
             success: true,
-            data: ideas
-        });
+            data: ideas,
+            meta: {
+                total: total,
+                page: options.page,
+                limit: options.limit,
+                pages: Math.ceil(total / options.limit)
+            }
+        };
+
+        res.status(200).json(response);
     } catch (error) {
         console.error(error);
         res.status(500).json({
